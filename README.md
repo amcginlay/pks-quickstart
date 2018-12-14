@@ -2,10 +2,15 @@
 
 ## Prerequisites
 
-On GCP:
+- A registered top-level domain (e.g. pivotaledu.io)
+- An ppropriately configured subdomain (e.g. cls66env99) to represent this instance
+- A [GCP account](https://cloud.google.com/) (credit card identification is required)
 - A pristine GCP project
+- A [PivNet](https://network.pivotal.io/) account
 
 ## Creating a jumpbox on GCP
+
+New GCP users may need to [activate Cloud Shell](http://cloud.google.com/shell)
 
 From within your _pristine_ GCP project, open the Cloud Shell.
 
@@ -30,7 +35,13 @@ gcloud compute instances create "jbox-pcf" \
 gcloud compute ssh ubuntu@jbox-pcf --zone us-central1-a
 ```
 
+If you would prefer to use the [Google Cloud SDK](https://cloud.google.com/sdk/install) from 
+your local machine, remember to first authenticate with `gcloud auth login` and add the
+`--project <TARGET_PROJECT_ID>` argument to the commands shown above.
+
 ## Initialize the `gcloud` CLI on the jumpbox:
+
+From your jumpbox SSH session, authenticate the SDK with your GCP account
 
 ```bash
 gcloud auth login
@@ -93,7 +104,7 @@ Verify that these tools were installed:
 which unzip; which jq; which uaac; which terraform; which om; which pivnet; which bosh
 ```
 
-## Fetch the platform automation scripts and configure its variables
+## Fetch the and configure the platform automation scripts
 
 Clone the platform automation scripts and change into the directory of our cloned repo
 to keep our task script commands short
@@ -114,9 +125,9 @@ in your `~/.env` file to suit your target environment.
 
 ## Register the configuration file
 
-Now that we have the `~/.env` file with the essential variables, we need 
-to ensure that these get set into the shell, both now and every 
-subsequent time the ubuntu user connects to the jumpbox.
+Now that we have the `~/.env` file loaded with the essential variables, we need 
+to ensure that these get set into the shell, both now and every subsequent time
+the `ubuntu` user connects to the jumpbox.
 
 ```bash
 source ~/.env
