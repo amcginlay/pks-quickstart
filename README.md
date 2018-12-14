@@ -331,9 +331,8 @@ K8S_MASTER_INTERNAL_IP=$( \
 
 K8S_MASTER_EXTERNAL_IP=$( \
   gcloud compute instances list --project ${GCP_PROJECT_ID} --format json | \
-    jq --raw-output --arg V "${K8S_MASTER_INTERNAL_IP}" '.[] | \
-      select(.networkInterfaces[].networkIP | match ($V)) | \
-      .networkInterfaces[].accessConfigs[].natIP' \
+    jq --raw-output --arg V "${K8S_MASTER_INTERNAL_IP}" \
+    '.[] | select(.networkInterfaces[].networkIP | match ($V)) | .networkInterfaces[].accessConfigs[].natIP' \
 )
 ```
 
