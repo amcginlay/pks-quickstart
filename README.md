@@ -272,29 +272,34 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scr
 ./scripts/apply-changes.sh
 ```
 
-## Set shortcut variable
-- Execute `PCF_PKS=pks.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
-
 ## Find the product guid and UAA admin password for PKS
 
-1. Navigate to the page resolved by executing:
-   
+Extract the PKS admin password using `om curl`
+
    ```bash
-   echo "https://${PCF_OPSMAN_FQDN}/api/v0/deployed/products"
+   PCF_PKS_GUID=$( \
+     om --skip-ssl-validation \
+       curl \
+         --silent \
+         --path /api/v0/deployed/products | \
+           jq --raw-output '.[] | select(.type=="pivotal-container-service") | .guid' \
+   )
+   
+   PCF_PKS_UAA_ADMIN_PASSWORD=$( \
+     om --skip-ssl-validation \
+       curl \
+         --silent \
+         --path /api/v0/deployed/products/${PCF_PKS_GUID}/credentials/.properties.uaa_admin_password | \
+           jq --raw-output '.credential.value.secret' \
+   )   
    ```
 
-1. Identify the guid for the product with `"type": "pivotal-container-service"`
-1. Store this value in a shell variable named `PCF_PKS_GUID`
-1. Navigate to the page resolved by executing:
-   
-   ```bash
-   echo "https://${PCF_OPSMAN_FQDN}/api/v0/deployed/products/${PCF_PKS_GUID}/credentials/.properties.uaa_admin_password"
-   ```
-   
-1. Identify the value of `credential.value.secret`
-1. Store this value in a shell variable named `PCF_PKS_UAA_ADMIN_PASSWORD`
+## Set variable for PKS endpoint
+- Execute `PCF_PKS=pks.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
 
 ## Connect to PKS
+
+__TODO: install pks and kubectl cli tools__
 
 ```bash
 pks login \
