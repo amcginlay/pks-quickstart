@@ -272,8 +272,7 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scr
 ./scripts/apply-changes.sh
 ```
 
-## Set shortcut variables
-- Execute `PCF_OPSMAN=pcf.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
+## Set shortcut variable
 - Execute `PCF_PKS=pks.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
 
 ## Find the product guid and UAA admin password for PKS
@@ -281,7 +280,7 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scr
 1. Navigate to the page resolved by executing:
    
    ```bash
-   echo "https://${PCF_OPSMAN}/api/v0/deployed/products"
+   echo "https://${PCF_OPSMAN_FQDN}/api/v0/deployed/products"
    ```
 
 1. Identify the guid for the product with `"type": "pivotal-container-service"`
@@ -289,7 +288,7 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scr
 1. Navigate to the page resolved by executing:
    
    ```bash
-   echo "https://${PCF_OPSMAN}/api/v0/deployed/products/${PCF_PKS_GUID}/credentials/.properties.uaa_admin_password"
+   echo "https://${PCF_OPSMAN_FQDN}/api/v0/deployed/products/${PCF_PKS_GUID}/credentials/.properties.uaa_admin_password"
    ```
    
 1. Identify the value of `credential.value.secret`
