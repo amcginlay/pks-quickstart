@@ -213,13 +213,13 @@ create_gcs_buckets  = "false"
 external_database   = 0
 isolation_segment   = "false"
 ssl_cert            = <<SSL_CERT
-$(cat ../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.crt)
+$(cat ../../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.crt)
 SSL_CERT
 ssl_private_key     = <<SSL_KEY
-$(cat ../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)
+$(cat ../../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)
 SSL_KEY
 service_account_key = <<SERVICE_ACCOUNT_KEY
-$(cat ../gcp_credentials.json)
+$(cat ../../gcp_credentials.json)
 SERVICE_ACCOUNT_KEY
 EOF
 ```
