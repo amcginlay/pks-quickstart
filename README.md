@@ -4,7 +4,7 @@
 
 - A registered top-level domain (e.g. pivotaledu.io)
 - An appropriately configured subdomain (e.g. cls66env99) to represent this instance
-- A [GCP account](https://cloud.google.com/) (credit card identification is required)
+- A [GCP account](https://cloud.google.com/) (credit card identification is required for account registration)
 - A pristine GCP project
 - A [PivNet](https://network.pivotal.io/) account
 
