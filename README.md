@@ -324,9 +324,17 @@ pks create-cluster k8s \
 ## Discover the external IP of the master node
 
 ```bash
-K8S_MASTER_INTERNAL_IP=$(pks cluster k8s --json | jq --raw-output '.kubernetes_master_ips[0]')
-K8S_MASTER_EXTERNAL_IP=$(gcloud compute instances list --project ${GCP_PROJECT_ID} --format json | \
-  jq --raw-output --arg V "${K8S_MASTER_INTERNAL_IP}" '.[] | select(.networkInterfaces[].networkIP | match ($V)) | .networkInterfaces[].accessConfigs[].natIP')
+K8S_MASTER_INTERNAL_IP=$( \
+  pks cluster k8s --json | 
+    jq --raw-output '.kubernetes_master_ips[0]' \
+)
+
+K8S_MASTER_EXTERNAL_IP=$( \
+  gcloud compute instances list --project ${GCP_PROJECT_ID} --format json | \
+    jq --raw-output --arg V "${K8S_MASTER_INTERNAL_IP}" '.[] | \
+      select(.networkInterfaces[].networkIP | match ($V)) | \
+      .networkInterfaces[].accessConfigs[].natIP' \
+)
 ```
 
 ## Create an A Record in the DNS for your Kubernetes cluster
