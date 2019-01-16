@@ -157,7 +157,7 @@ gcloud iam service-accounts keys create 'gcp_credentials.json' \
 ## Download an Ops Manager image identifier from Pivotal Network
 
 ```bash
-OPSMAN_VERSION=2.3.5
+OPSMAN_VERSION=2.4.1
 
 PRODUCT_NAME="Pivotal Cloud Foundry Operations Manager" \
 DOWNLOAD_REGEX="Pivotal Cloud Foundry Ops Manager YAML for GCP" \
@@ -181,7 +181,7 @@ Please note:
 - These Terraform scripts can support the infrastructure for PAS _or_ PKS.
 
 ```bash
-PAS_VERSION=2.3.3
+PAS_VERSION=2.4.1
 
 PRODUCT_NAME="Pivotal Application Service (formerly Elastic Runtime)" \
 DOWNLOAD_REGEX="GCP Terraform Templates" \
@@ -216,7 +216,7 @@ ssl_cert            = <<SSL_CERT
 $(cat ../../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.crt)
 SSL_CERT
 ssl_private_key     = <<SSL_KEY
-$(cat ../../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)
+cd$(cat ../../${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.key)
 SSL_KEY
 service_account_key = <<SERVICE_ACCOUNT_KEY
 $(cat ../../gcp_credentials.json)
@@ -259,18 +259,20 @@ cd ~/ops-manager-automation
 
 ./scripts/configure-authentication.sh
 
-IMPORTED_VERSION=2.3.5 TARGET_PLATFORM=pks ./scripts/configure-director-gcp.sh
+IMPORTED_VERSION=2.4.1 TARGET_PLATFORM=pks ./scripts/configure-director-gcp.sh
 
 PRODUCT_NAME="Pivotal Container Service (PKS)" \
-PRODUCT_VERSION="1.2.2" \
+PRODUCT_VERSION="1.2.6" \
 DOWNLOAD_REGEX="Pivotal Container Service" \
   ./scripts/import-product.sh
 
-IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scripts/stage-product.sh
-IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.2-build.3" ./scripts/configure-product.sh
+IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.6-build.2" ./scripts/stage-product.sh
+IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.6-build.2" ./scripts/configure-product.sh
 
 ./scripts/apply-changes.sh
+
 ```
+__TODO: figure out why latest stemcells were not downloaded and installed, currently 97.43 https://network.pivotal.io/products/stemcells-ubuntu-xenial/#/releases/264503 __
 
 ## Find the product guid and UAA admin password for PKS
 
@@ -294,7 +296,7 @@ Extract the PKS admin password using `om curl`
    )   
    ```
 
-## Set variable for PKS endpoint
+## Set variable for PKS endpointe
 - Execute `PCF_PKS=pks.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
 
 ## Connect to PKS
@@ -494,5 +496,5 @@ This section is more about manipulating GCP to expose an endpoint than PKS or k8
 Navigate to the page resolved by executing:
 
 ```bash
-echo http:/${LOAD_BALANCER_IP}:${SERVICE_PORT}
+echo http://${LOAD_BALANCER_IP}:${SERVICE_PORT}
 ```
