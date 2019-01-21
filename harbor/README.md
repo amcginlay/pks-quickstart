@@ -77,4 +77,4 @@ gcloud compute firewall-rules create harbor \
   --project=${GCP_PROJECT_ID}
 ```
 
-You should now be able to view the Harbor UI at `https://${PCF_HARBOR}`
+You should now be able to view the Harbor UI. You can see the URL with `echo "https://${PCF_HARBOR}"`. The username is "admin". You can see the password with `echo "${OM_PASSWORD}"`
