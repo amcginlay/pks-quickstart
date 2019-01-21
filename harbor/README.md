@@ -63,3 +63,18 @@ When run locally, the following watch command should eventually yield a differen
 ```bash
 watch dig "$PCF_HARBOR"
 ```
+
+## Allow outside traffic to hit Harbor
+
+Add a firewall rule to GCP to allow traffic to the Harbor VM on port 443.
+
+```bash
+gcloud compute firewall-rules create harbor \
+  --network=${PCF_SUBDOMAIN_NAME}-pcf-network \
+  --action=ALLOW \
+  --rules=tcp:443 \
+  --target-tags=harbor-app \
+  --project=${GCP_PROJECT_ID}
+```
+
+You should now be able to view the Harbor UI at `https://${PCF_HARBOR}`
