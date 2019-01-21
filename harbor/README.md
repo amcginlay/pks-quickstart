@@ -3,6 +3,11 @@
 ## Prerequisites
 
 - Follow [these steps](https://github.com/amcginlay/ops-manager-automation) to deploy Opsmanager and PKS on GCP.
+- Export `GCP_PROJECT_ID` as an environment variable. You can do this by running:
+
+```bash
+export GCP_PROJECT_ID="$(gcloud config get-value core/project)"
+```
 
 ## Deploy Harbor
 
@@ -18,6 +23,43 @@ DOWNLOAD_REGEX="^VMware Harbor" \
   ./scripts/import-product.sh
 IMPORTED_NAME="harbor-container-registry" IMPORTED_VERSION="1.7.1-build.3" ./scripts/stage-product.sh
 IMPORTED_NAME="harbor-container-registry" IMPORTED_VERSION="1.7.1-build.3" ./scripts/configure-product.sh
+
+# If necessary, apply changes once configuration completes
+./scripts/apply-changes.sh
 ```
 
+## Configure Harbor DNS
 
+Set Harbor's DNS name as a variable
+
+```bash
+export PCF_HARBOR="harbor.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}"
+```
+
+Add a DNS entry for Harbor.
+
+```bash
+# Get Harbor public IP
+HARBOR_EXTERNAL_IP="$(gcloud compute instances list --project ${GCP_PROJECT_ID} --format json | jq -r \
+  '.[] | select(.labels.instance_group == "harbor-app") | .networkInterfaces[].accessConfigs[].natIP')"
+
+gcloud dns record-sets transaction start --project ${GCP_PROJECT_ID} --zone=${PCF_SUBDOMAIN_NAME}-zone
+
+gcloud dns record-sets transaction \
+  add ${HARBOR_EXTERNAL_IP} \
+  --name=${PCF_HARBOR}. \
+  --project ${GCP_PROJECT_ID} \
+  --ttl=300 --type=A --zone=${PCF_SUBDOMAIN_NAME}-zone
+
+gcloud dns record-sets transaction execute --project ${GCP_PROJECT_ID} --zone=${PCF_SUBDOMAIN_NAME}-zone
+```
+
+## Verify the DNS changes
+
+This step may take about 5 minutes to propagate.
+
+When run locally, the following watch command should eventually yield a different external IP address
+
+```bash
+watch dig "$PCF_HARBOR"
+```
