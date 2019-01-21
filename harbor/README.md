@@ -9,6 +9,8 @@
 export GCP_PROJECT_ID="$(gcloud config get-value core/project)"
 ```
 
+- On the jumpbox, install Docker CE. Follow the instructions [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository).
+
 ## Deploy Harbor
 
 Harbor can be deployed on its own, or alongside __PAS__ or __PKS__. You can also not deploy it at all.
@@ -78,3 +80,20 @@ gcloud compute firewall-rules create harbor \
 ```
 
 You should now be able to view the Harbor UI. You can see the URL with `echo "https://${PCF_HARBOR}"`. The username is "admin". You can see the password with `echo "${OM_PASSWORD}"`
+
+## Push a hello world app to Harbor
+
+
+Pull a sample Docker image:
+
+```bash
+docker pull nginx
+```
+
+Log into Harbor:
+
+```bash
+
+/etc/docker/daemon.json
+```
+
