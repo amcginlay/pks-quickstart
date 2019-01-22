@@ -81,8 +81,19 @@ gcloud compute firewall-rules create harbor \
 
 You should now be able to view the Harbor UI. You can see the URL with `echo "https://${PCF_HARBOR}"`. The username is "admin". You can see the password with `echo "${OM_PASSWORD}"`
 
-## Push a hello world app to Harbor
+## Trust the Harbor CA on your jumpbox
 
+Add the CA for your self-signed cert to Ubuntu's trusted CAs:
+
+```bash
+cd ~/ops-manager-automation/
+sudo mkdir /usr/local/share/ca-certificates/harbor/
+sudo cp "${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}.ca.crt" sudo /usr/local/share/ca-certificates/harbor.crt
+sudo chmod 644 /usr/local/share/ca-certificates/harbor.crt
+sudo update-ca-certificates
+```
+
+## Push a hello world app to Harbor
 
 Pull a sample Docker image:
 
@@ -93,7 +104,14 @@ docker pull nginx
 Log into Harbor:
 
 ```bash
-
-/etc/docker/daemon.json
+docker login "https://${PCF_HARBOR}" \
+  --username admin \
+  --password "${OM_PASSWORD}"
 ```
 
+Tag and push your docker image to Harbor:
+
+```bash
+docker tag nginx "${PCF_HARBOR}/library/nginx:latest"
+docker push "${PCF_HARBOR}/library/nginx:latest"
+```
