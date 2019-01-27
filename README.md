@@ -278,7 +278,6 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.6-build.2" ./scr
 ./scripts/apply-changes.sh
 
 ```
-__TODO: figure out why latest stemcells were not downloaded and installed, currently 97.43 https://network.pivotal.io/products/stemcells-ubuntu-xenial/#/releases/264503 __
 
 ## Find the product guid and UAA admin password for PKS
 
