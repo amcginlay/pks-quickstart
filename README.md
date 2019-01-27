@@ -82,7 +82,7 @@ wget -O terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/ter
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-OM_VERSION=0.51.0
+OM_VERSION=0.46.0
 wget -O om https://github.com/pivotal-cf/om/releases/download/${OM_VERSION}/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
