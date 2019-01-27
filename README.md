@@ -77,31 +77,32 @@ sudo gem install --no-ri --no-rdoc cf-uaac
 ```
 
 ```bash
-VERSION=0.11.10
-wget -O terraform.zip https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip && \
+TF_VERSION=0.11.11
+wget -O terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \
   unzip terraform.zip && \
   sudo mv terraform /usr/local/bin
 
-VERSION=0.46.0
-wget -O om https://github.com/pivotal-cf/om/releases/download/${VERSION}/om-linux && \
+OM_VERSION=0.51.0
+wget -O om https://github.com/pivotal-cf/om/releases/download/${OM_VERSION}/om-linux && \
   chmod +x om && \
   sudo mv om /usr/local/bin/
 
-VERSION=0.0.55
-wget -O pivnet https://github.com/pivotal-cf/pivnet-cli/releases/download/v${VERSION}/pivnet-linux-amd64-${VERSION} && \
+PN_VERSION=0.0.55
+wget -O pivnet https://github.com/pivotal-cf/pivnet-cli/releases/download/v${PN_VERSION}/pivnet-linux-amd64-${PN_VERSION} && \
   chmod +x pivnet && \
   sudo mv pivnet /usr/local/bin/
-  
-VERSION=5.4.0
-wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${VERSION}-linux-amd64 && \
+
+BOSH_VERSION=5.4.0
+wget -O bosh https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-${BOSH_VERSION}-linux-amd64 && \
   chmod +x bosh && \
   sudo mv bosh /usr/local/bin/
+
 ```
 
 Verify that these tools were installed:
 
 ```bash
-which unzip; which jq; which uaac; which terraform; which om; which pivnet; which bosh
+type unzip; type jq; type uaac; type terraform; type om; type pivnet; type bosh
 ```
 
 ## Fetch the and configure the platform automation scripts
