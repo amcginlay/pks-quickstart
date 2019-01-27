@@ -262,6 +262,11 @@ cd ~/ops-manager-automation
 
 IMPORTED_VERSION=2.4.1 TARGET_PLATFORM=pks ./scripts/configure-director-gcp.sh
 
+PRODUCT_NAME="Stemcells for PCF (Ubuntu Xenial)" \
+PRODUCT_VERSION="97.52" \
+DOWNLOAD_REGEX="Google"
+  ./scripts/import-product.sh
+
 PRODUCT_NAME="Pivotal Container Service (PKS)" \
 PRODUCT_VERSION="1.2.6" \
 DOWNLOAD_REGEX="Pivotal Container Service" \
