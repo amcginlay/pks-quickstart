@@ -306,7 +306,19 @@ Extract the PKS admin password using `om curl`
 
 ## Connect to PKS
 
-__TODO: install pks and kubectl cli tools__
+Install pks and kubectl cli tools:
+
+```bash
+pivnet download-product-files -p "pivotal-container-service" -r "1.2.6" -g "pks-linux*" && \
+  chmod +x pks-linux* && \
+  sudo mv pks-linux* /usr/local/bin/pks
+
+pivnet download-product-files -p "pivotal-container-service" -r "1.2.6" -g "kubectl-linux*" && \
+  chmod +x kubectl-linux* && \
+  sudo mv kubectl-linux* /usr/local/bin/kubectl
+```
+
+Login to PKS:
 
 ```bash
 pks login \
