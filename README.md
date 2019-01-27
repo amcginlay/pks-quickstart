@@ -56,11 +56,11 @@ session to complete the login sequence.
 ## Enable the GCP services APIs in current project
 
 ```bash
-gcloud services enable compute.googleapis.com && \
-gcloud services enable iam.googleapis.com && \
-gcloud services enable cloudresourcemanager.googleapis.com && \
-gcloud services enable dns.googleapis.com && \
-gcloud services enable sqladmin.googleapis.com
+gcloud services enable compute.googleapis.com --async
+gcloud services enable iam.googleapis.com --async
+gcloud services enable cloudresourcemanager.googleapis.com --async
+gcloud services enable dns.googleapis.com --async
+gcloud services enable sqladmin.googleapis.com --async
 ```
 
 ## Prepare your toolbox
