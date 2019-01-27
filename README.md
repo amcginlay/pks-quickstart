@@ -301,7 +301,7 @@ Extract the PKS admin password using `om curl`
    )   
    ```
 
-## Set variable for PKS endpointe
+## Set variable for PKS endpoint
 - Execute `PCF_PKS=pks.${PCF_SUBDOMAIN_NAME}.${PCF_DOMAIN_NAME}`
 
 ## Connect to PKS
