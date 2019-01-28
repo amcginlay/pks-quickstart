@@ -540,7 +540,9 @@ subjects:
 EOF
 ```
 
-## Copy the hidden `.kube/config` file so it's easy to find
+## Copy the hidden `.kube/config` file
+
+So it's easy to find later
 
 ```bash
 cp ~/.kube/config ~/kubeconfig
@@ -555,3 +557,5 @@ kubectl proxy &
 ## Inspect the Kubernetes dashboard
 
 Navigate to `http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy`
+
+Select the ~/kubeconfig file if/when prompted to do so.
