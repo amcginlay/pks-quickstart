@@ -346,7 +346,7 @@ K8S_MASTER_INTERNAL_IP=$( \
 )
 
 K8S_MASTER_EXTERNAL_IP=$( \
-  gcloud compute instances list --project ${GCP_PROJECT_ID} --format json | \
+  gcloud compute instances list --format json | \
     jq --raw-output --arg V "${K8S_MASTER_INTERNAL_IP}" \
     '.[] | select(.networkInterfaces[].networkIP | match ($V)) | .networkInterfaces[].accessConfigs[].natIP' \
 )
@@ -355,15 +355,14 @@ K8S_MASTER_EXTERNAL_IP=$( \
 ## Create an A Record in the DNS for your Kubernetes cluster
 
 ```bash
-gcloud dns record-sets transaction start --project ${GCP_PROJECT_ID} --zone=${PCF_SUBDOMAIN_NAME}-zone
+gcloud dns record-sets transaction start --zone=${PCF_SUBDOMAIN_NAME}-zone
 
   gcloud dns record-sets transaction \
     add ${K8S_MASTER_EXTERNAL_IP} \
     --name=k8s.${PCF_PKS}. \
-    --project ${GCP_PROJECT_ID} \
     --ttl=300 --type=A --zone=${PCF_SUBDOMAIN_NAME}-zone
 
-gcloud dns record-sets transaction execute --project ${GCP_PROJECT_ID} --zone=${PCF_SUBDOMAIN_NAME}-zone
+gcloud dns record-sets transaction execute --zone=${PCF_SUBDOMAIN_NAME}-zone
 ```
 
 ## Verify the DNS changes
@@ -388,7 +387,7 @@ This will create/modify the `~/.kube` directory used by the `kubectl` tool.
 ## Deploy the nginx webserver docker image
 
 ```bash
-kubectl create -f - <<-EOF
+kubectl create -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -418,7 +417,7 @@ EOF
 Let our cluster know that we wish to expose our app via a `NodePort` service:
 
 ```bash
-kubectl create -f - <<-EOF
+kubectl create -f - << EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -464,24 +463,21 @@ This section is more about manipulating GCP to expose an endpoint than PKS or k8
      --network=${PCF_SUBDOMAIN_NAME}-pcf-network \
      --action=ALLOW \
      --rules=tcp:${SERVICE_PORT} \
-     --target-tags=worker \
-     --project=${GCP_PROJECT_ID}
+     --target-tags=worker
    ```
    
 1. Add a target pool to represent all the worker nodes:
    
    ```bash
    gcloud compute target-pools create "nginx" \
-     --region "us-central1" \
-     --project "${GCP_PROJECT_ID}"
+     --region "us-central1"
      
-   WORKERS=$(gcloud compute instances list --project=${GCP_PROJECT_ID} --filter="tags.items:worker"    --format="value(name)")
+   WORKERS=$(gcloud compute instances list --filter="tags.items:worker"    --format="value(name)")
    
    for WORKER in ${WORKERS}; do
      gcloud compute target-pools add-instances "nginx" \
        --instances-zone "us-central1-a" \
-       --instances "${WORKER}" \
-       --project "${GCP_PROJECT_ID}"
+       --instances "${WORKER}"
    done
    ```
    
@@ -493,8 +489,7 @@ This section is more about manipulating GCP to expose an endpoint than PKS or k8
      --network-tier=STANDARD \
      --ip-protocol=TCP \
      --ports=${SERVICE_PORT} \
-     --target-pool=nginx \
-     --project=${GCP_PROJECT_ID}
+     --target-pool=nginx
    ```
    
 1. Extract the external IP address:
@@ -503,12 +498,48 @@ This section is more about manipulating GCP to expose an endpoint than PKS or k8
    LOAD_BALANCER_IP=$(gcloud compute forwarding-rules list \
      --filter="name:nginx" \
      --format="value(IPAddress)" \
-     --project=${GCP_PROJECT_ID})
+   )
    ```
 
 # Verify accessibility
+
 Navigate to the page resolved by executing:
 
 ```bash
 echo http://${LOAD_BALANCER_IP}:${SERVICE_PORT}
 ```
+
+# The Kubernetes Dashboard (local machine only)
+
+To run these commands you will need to install and configure the `pks` and `kubctl` cli tools locally.
+
+## Allow remote access to the Kubernetes dashboard
+
+```bash
+kubectl create -f - <<-EOF
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-dashboard
+  labels:
+    k8s-app: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-dashboard
+  namespace: kube-system
+EOF
+```
+
+## Open a tunnel from localhost to your cluster
+
+```bash
+kubectl proxy &
+```
+
+## Inspect the Kubernetes dashboard
+
+Navigate to `http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy`
