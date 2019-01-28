@@ -515,8 +515,8 @@ To run these commands you will need to install and configure the `pks` and `kubc
 
 Keep your jumpbox session to allow quick access to the required variable values, then repeat the following steps:
 
-* Find the product guid and UAA admin password for PKS
-* Connect to PKS (installing CLI tools as per machine specific requirements)
+* Find the product guid and UAA admin password for PKS (use `set | grep "OM_"` to get `om` credentials)
+* Connect to PKS (install CLI tools as per machine specific requirements)
 * Use the PKS client to cache the cluster creds
 
 ## Allow remote access to the Kubernetes dashboard
