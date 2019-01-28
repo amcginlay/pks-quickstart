@@ -513,7 +513,7 @@ echo http://${LOAD_BALANCER_IP}:${SERVICE_PORT}
 
 To run these commands you will need to install and configure the `pks` and `kubctl` cli tools locally.
 
-Keep your jumpbox session to allow quick access to the required variable values, then repeat the following steps:
+Keep your jumpbox session open for quick access to the required variable values, then repeat the following steps:
 
 * Find the product guid and UAA admin password for PKS (`export` the `om` creds produced by `set | grep "OM_"`)
 * Connect to PKS (install CLI tools as per machine specific requirements)
