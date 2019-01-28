@@ -540,6 +540,12 @@ subjects:
 EOF
 ```
 
+## Copy the hidden `.kube/config` file so it's easy to find
+
+```bash
+cp ~/.kube/config ~/kubeconfig
+```
+
 ## Open a tunnel from localhost to your cluster
 
 ```bash
