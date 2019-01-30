@@ -203,7 +203,7 @@ unzip ./downloads/elastic-runtime_${PAS_VERSION}_*/terraforming-gcp-*.zip -d .
 ```bash
 cd ~/ops-manager-automation/pivotal-cf-terraforming-gcp-*/terraforming-pks/
 
-cat > terraform.tfvars <<-EOF
+cat > terraform.tfvars << EOF
 env_name            = "${PCF_SUBDOMAIN_NAME}"
 project             = "$(gcloud config get-value core/project)"
 region              = "${PCF_REGION}"
@@ -522,7 +522,7 @@ Keep your jumpbox session open for quick access to the required variable values,
 ## Allow remote access to the Kubernetes dashboard
 
 ```bash
-kubectl create -f - <<-EOF
+kubectl create -f - << EOF
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
