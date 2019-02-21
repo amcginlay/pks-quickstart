@@ -105,7 +105,7 @@ Verify that these tools were installed:
 type unzip; type jq; type uaac; type terraform; type om; type pivnet; type bosh
 ```
 
-## Fetch the and configure the platform automation scripts
+## Fetch and configure the platform automation scripts
 
 Clone the platform automation scripts and change into the directory of our cloned repo
 to keep our task script commands short
