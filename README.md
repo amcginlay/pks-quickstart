@@ -512,6 +512,7 @@ echo http://${LOAD_BALANCER_IP}:${SERVICE_PORT}
 # The Kubernetes Dashboard (local machine only)
 
 To run these commands you will need to install and configure the `pks` and `kubctl` cli tools locally.
+Command line instructions assume Bash shell and will need adjusting to suit Windows users.
 
 Keep your jumpbox session open for quick access to the required variable values, then repeat the following steps:
 
