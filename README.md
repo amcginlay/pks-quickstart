@@ -256,8 +256,8 @@ Successful DNS resolution is fully dependent on having a ${PCF_SUBDOMAIN_NAME}.$
 
 ## Use automation tools to deploy PKS
 
-As you execute the following steps, watch out for PivNet EULA acceptance warnings which show in red.
-The output will present links which you should follow in a browser before you continue.
+As you execute the following steps, watch out for possible PivNet EULA acceptance warnings which show in red.
+The output will present links which you should follow in a browser before you can retry.
 
 ```bash
 cd ~/ops-manager-automation
