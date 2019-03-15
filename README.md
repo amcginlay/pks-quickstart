@@ -512,13 +512,14 @@ echo http://${LOAD_BALANCER_IP}:${SERVICE_PORT}
 # The Kubernetes Dashboard (local machine only)
 
 To run these commands you will need to install and configure the `pks` and `kubctl` cli tools locally.
-Command line instructions assume Bash shell and will need adjusting to suit Windows users.
 
 Keep your jumpbox session open for quick access to the required variable values, then repeat the following steps:
 
 * Find the product guid and UAA admin password for PKS (`export` the `om` creds produced by `set | grep "OM_"`)
 * Connect to PKS (install CLI tools as per machine specific requirements)
 * Use the PKS client to cache the cluster creds
+
+_Note_ the following command line instructions assume Bash shell and will likely need adjusting to suit Windows users.
 
 ## Allow remote access to the Kubernetes dashboard
 
