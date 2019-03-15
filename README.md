@@ -242,7 +242,7 @@ watch dig ${PCF_OPSMAN_FQDN}
 ```
 
 Probe the resolved FQDN to make sure we get a response.
-The response will probably just be a wraning about an SSL certificate problem, which is OK.
+The response will probably just be a warning about an SSL certificate problem, which is OK.
 
 ```bash
 curl ${PCF_OPSMAN_FQDN}
