@@ -283,7 +283,7 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.6-build.2" ./scr
 
 ```
 
-## Find the product guid and UAA admin password for PKS
+## Find the UAA admin password for PKS
 
 Extract the PKS admin password using `om credentials`
 
