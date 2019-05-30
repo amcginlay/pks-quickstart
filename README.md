@@ -285,23 +285,13 @@ IMPORTED_NAME="pivotal-container-service" IMPORTED_VERSION="1.2.6-build.2" ./scr
 
 ## Find the product guid and UAA admin password for PKS
 
-Extract the PKS admin password using `om curl`
+Extract the PKS admin password using `om credentials`
 
-   ```bash
-   PCF_PKS_GUID=$( \
-     om --skip-ssl-validation \
-       curl \
-         --silent \
-         --path /api/v0/deployed/products | \
-           jq --raw-output '.[] | select(.type=="pivotal-container-service") | .guid' \
-   )
-   
-   PCF_PKS_UAA_ADMIN_PASSWORD=$( \
-     om --skip-ssl-validation \
-       curl \
-         --silent \
-         --path /api/v0/deployed/products/${PCF_PKS_GUID}/credentials/.properties.uaa_admin_password | \
-           jq --raw-output '.credential.value.secret' \
+   ```bash   
+   PCF_PKS_UAA_ADMIN_PASSWORD=$(om credentials \
+    -p pivotal-container-service \
+    -c '.properties.uaa_admin_password' \
+    -f secret)
    )   
    ```
 
